@@ -2,12 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const port = 3000;
+const cardsRouter = require("./routes/cards");
 
 const corsOptions = {
   origin: "*",
   Credentials: true,
   optionSuccesStatus: 200,
 };
+app.use("/cards", cardsRouter);
 
 app.use(cors(corsOptions));
 app.use(express.json());

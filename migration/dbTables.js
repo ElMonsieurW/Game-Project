@@ -1,5 +1,5 @@
 const mysql = require("mysql");
-const { dbConfig } = require("./Config.json");
+const { dbConfig } = require("../Config.json");
 
 let con = mysql.createConnection({
   host: dbConfig.host,
@@ -12,5 +12,9 @@ con.connect(function (err) {
   if (err) throw err;
   console.log("Connected!");
   const sql =
-    "CREATE TABLE IF NOT EXISTS dos (id INT AUTO_INCREMENT PRIMARY KEY, value INT, color INT,symbol STRING,playerEffect BOOL, playerBonus INT, enemyEffect BOOL, enemyBonys INT, url STRING";
+    "CREATE TABLE IF NOT EXISTS Cards (id INT AUTO_INCREMENT PRIMARY KEY,tete BOOL, value INT, color INT,symbol VARCHAR(255),playerEffect BOOL, playerBonus INT, enemyEffect BOOL, enemyBonus INT, url VARCHAR(255))";
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table successfully created");
+  });
 });
