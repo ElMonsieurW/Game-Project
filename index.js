@@ -16,6 +16,15 @@ app.use(
     extended: true,
   })
 );
+app.get("/", function (req, res) {
+  res.send("Hello World");
+});
+
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  console.error(err.message, err.stack);
+  res.status(statusCode).json({ message: err.message });
+});
 
 app.listen(port, () => {
   console.log("Octopute");
@@ -27,3 +36,5 @@ var server = app.listen(8081, function () {
 
   console.log("Ca marche, nique toi");
 });
+
+app.use(express.static("public"));
