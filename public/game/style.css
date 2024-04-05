@@ -1,3 +1,4 @@
-p {
-  background-image: url("paper.gif");
+body {
+  background-color: beige;
+  background-image: url("../assets/background-image.png");
 }
