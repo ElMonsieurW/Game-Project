@@ -1,139 +1,147 @@
-const readline = require('readline');
+let dealerSum = 0;
+let yourSum = 0;
 
-// Fonction pour mélanger un jeu de cartes
-function shuffleDeck(deck) {
-    for (let i = deck.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [deck[i], deck[j]] = [deck[j], deck[i]];
-    }
+let dealerAceCount = 0;
+let yourAceCount = 0; 
+
+let hidden;
+let deck;
+
+let canHit = true; //allows the player (you) to draw while yourSum <= 21
+
+window.onload = function() {
+    buildDeck();
+    shuffleDeck();
+    startGame();
 }
 
-// Création d'un jeu de cartes
-function createDeck() {
-    const suits = ['♠', '♣', '♥', '♦'];
-    const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-    const deck = [];
-    for (const suit of suits) {
-        for (const value of values) {
-            deck.push({ value, suit });
+function buildDeck() {
+    let values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+    let types = ["C", "D", "H", "S"];
+    deck = [];
+
+    for (let i = 0; i < types.length; i++) {
+        for (let j = 0; j < values.length; j++) {
+            deck.push(values[j] + "-" + types[i]); //A-C -> K-C, A-D -> K-D
         }
     }
-    shuffleDeck(deck);
-    return deck;
+    // console.log(deck);
 }
 
-// Calcul du total d'une main
-function calculateHandValue(hand) {
-    let total = 0;
-    let hasAce = false;
-    for (const card of hand) {
-        if (card.value === 'A') {
-            hasAce = true;
-        }
-        if (['J', 'Q', 'K'].includes(card.value)) {
-            total += 10;
-        } else if (card.value !== 'A') {
-            total += parseInt(card.value);
-        }
+function shuffleDeck() {
+    for (let i = 0; i < deck.length; i++) {
+        let j = Math.floor(Math.random() * deck.length); // (0-1) * 52 => (0-51.9999)
+        let temp = deck[i];
+        deck[i] = deck[j];
+        deck[j] = temp;
     }
-    if (hasAce) {
-        if (total + 11 <= 21) {
-            total += 11;
-        } else {
-            total += 1;
-        }
-    }
-    return total;
+    console.log(deck);
 }
 
-// Affichage d'une main
-function displayHand(hand) {
-    const cards = hand.map(card => `${card.value}${card.suit}`).join(' ');
-    console.log(`Hand: ${cards} (Value: ${calculateHandValue(hand)})`);
+function startGame() {
+    hidden = deck.pop();
+    dealerSum += getValue(hidden);
+    dealerAceCount += checkAce(hidden);
+    // console.log(hidden);
+    // console.log(dealerSum);
+    while (dealerSum < 17) {
+        //<img src="./cards/4-C.png">
+        let cardImg = document.createElement("img");
+        let card = deck.pop();
+        cardImg.src = "./cards/" + card + ".png";
+        dealerSum += getValue(card);
+        dealerAceCount += checkAce(card);
+        document.getElementById("dealer-cards").append(cardImg);
+    }
+    console.log(dealerSum);
+
+    for (let i = 0; i < 2; i++) {
+        let cardImg = document.createElement("img");
+        let card = deck.pop();
+        cardImg.src = "./cards/" + card + ".png";
+        yourSum += getValue(card);
+        yourAceCount += checkAce(card);
+        document.getElementById("your-cards").append(cardImg);
+    }
+
+    console.log(yourSum);
+    document.getElementById("hit").addEventListener("click", hit);
+    document.getElementById("stay").addEventListener("click", stay);
+
 }
 
-// Jeu de blackjack
-function blackjackGame() {
-    const deck = createDeck();
-    const playerHand = [deck.pop(), deck.pop()];
-    const dealerHand = [deck.pop(), deck.pop()];
-
-    console.log('Welcome to Blackjack!\n');
-
-    // Affichage des mains
-    console.log('Dealer Hand:');
-    console.log(`\t${dealerHand[0].value}${dealerHand[0].suit} ?\n`);
-    console.log('Your Hand:');
-    displayHand(playerHand);
-
-    // Fonction pour demander à un joueur de frapper ou de rester
-    function hitOrStand() {
-        const rl = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout
-        });
-        return new Promise(resolve => {
-            rl.question('Hit or Stand? (h/s) ', answer => {
-                rl.close();
-                resolve(answer.toLowerCase() === 'h');
-            });
-        });
+function hit() {
+    if (!canHit) {
+        return;
     }
 
-    // Tour du joueur
-    async function playerTurn() {
-        while (true) {
-            const hit = await hitOrStand();
-            if (hit) {
-                playerHand.push(deck.pop());
-                console.log('\nYour Hand:');
-                displayHand(playerHand);
-                if (calculateHandValue(playerHand) > 21) {
-                    console.log('\nBusted! You lose.\n');
-                    return false;
-                }
-            } else {
-                return true;
-            }
-        }
+    let cardImg = document.createElement("img");
+    let card = deck.pop();
+    cardImg.src = "./cards/" + card + ".png";
+    yourSum += getValue(card);
+    yourAceCount += checkAce(card);
+    document.getElementById("your-cards").append(cardImg);
+
+    if (reduceAce(yourSum, yourAceCount) > 21) { //A, J, 8 -> 1 + 10 + 8
+        canHit = false;
     }
 
-    // Tour du croupier
-    function dealerTurn() {
-        console.log('\nDealer Hand:');
-        displayHand(dealerHand);
-        while (calculateHandValue(dealerHand) < 17) {
-            dealerHand.push(deck.pop());
-            console.log('\nDealer Hits:');
-            displayHand(dealerHand);
-        }
-    }
-
-    // Résolution du jeu
-    async function resolveGame() {
-        const playerResult = await playerTurn();
-        if (!playerResult) return;
-
-        dealerTurn();
-
-        const playerTotal = calculateHandValue(playerHand);
-        const dealerTotal = calculateHandValue(dealerHand);
-
-        console.log('\nGame Result:');
-        console.log(`\tYour Hand: ${playerTotal}`);
-        console.log(`\tDealer Hand: ${dealerTotal}`);
-
-        if (playerTotal > dealerTotal || dealerTotal > 21) {
-            console.log('\nCongratulations! You win!\n');
-        } else if (playerTotal < dealerTotal) {
-            console.log('\nSorry, you lose.\n');
-        } else {
-            console.log('\nIt\'s a tie!\n');
-        }
-    }
-
-    resolveGame();
 }
 
-// Démarrage du jeu
-blackjackGame();
+function stay() {
+    dealerSum = reduceAce(dealerSum, dealerAceCount);
+    yourSum = reduceAce(yourSum, yourAceCount);
+
+    canHit = false;
+    document.getElementById("hidden").src = "./cards/" + hidden + ".png";
+
+    let message = "";
+    if (yourSum > 21) {
+        message = "You Lose!";
+    }
+    else if (dealerSum > 21) {
+        message = "You win!";
+    }
+    //both you and dealer <= 21
+    else if (yourSum == dealerSum) {
+        message = "Tie!";
+    }
+    else if (yourSum > dealerSum) {
+        message = "You Win!";
+    }
+    else if (yourSum < dealerSum) {
+        message = "You Lose!";
+    }
+
+    document.getElementById("dealer-sum").innerText = dealerSum;
+    document.getElementById("your-sum").innerText = yourSum;
+    document.getElementById("results").innerText = message;
+}
+
+function getValue(card) {
+    let data = card.split("-"); // "4-C" -> ["4", "C"]
+    let value = data[0];
+
+    if (isNaN(value)) { //A J Q K
+        if (value == "A") {
+            return 11;
+        }
+        return 10;
+    }
+    return parseInt(value);
+}
+
+function checkAce(card) {
+    if (card[0] == "A") {
+        return 1;
+    }
+    return 0;
+}
+
+function reduceAce(playerSum, playerAceCount) {
+    while (playerSum > 21 && playerAceCount > 0) {
+        playerSum -= 10;
+        playerAceCount -= 1;
+    }
+    return playerSum;
+}
