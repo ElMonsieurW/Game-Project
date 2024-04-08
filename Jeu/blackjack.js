@@ -10,6 +10,8 @@ let deck;
 let canHit = true; //allows the player (you) to draw while yourSum <= 21
 
 window.onload = function() {
+    alert("Bienvenue au jeu de Blackjack!\n\nRègles du jeu :\n- Le but du jeu est d'obtenir un total de points supérieur à celui du croupier, sans dépasser 21.\n- Les cartes numérotées valent leur valeur faciale. Les cartes J, Q, et K valent chacune 10 points.\n- L'As vaut 1 ou 11 points, selon ce qui est plus avantageux pour le joueur.\n- Au début, le joueur et le croupier reçoivent deux cartes. Une des cartes du croupier est face cachée.\n- Le joueur peut demander des cartes supplémentaires ('Hit') jusqu'à ce qu'il soit satisfait de son total ou qu'il dépasse 21 ('Bust').\n- Le croupier tire des cartes supplémentaires jusqu'à ce que son total soit au moins de 17.\n- Si le joueur dépasse 21 points, il perd automatiquement ('Bust').\n- Si le croupier dépasse 21 points, le joueur gagne automatiquement.\n- Si le joueur et le croupier ont le même total, c'est un match nul ('Push').\n- Bonne chance!");
+
     buildDeck();
     shuffleDeck();
     startGame();
@@ -42,18 +44,13 @@ function startGame() {
     hidden = deck.pop();
     dealerSum += getValue(hidden);
     dealerAceCount += checkAce(hidden);
-    // console.log(hidden);
-    // console.log(dealerSum);
-    while (dealerSum < 17) {
-        //<img src="./cards/4-C.png">
-        let cardImg = document.createElement("img");
-        let card = deck.pop();
-        cardImg.src = "./cards/" + card + ".png";
-        dealerSum += getValue(card);
-        dealerAceCount += checkAce(card);
-        document.getElementById("dealer-cards").append(cardImg);
-    }
-    console.log(dealerSum);
+
+    let cardImg = document.createElement("img");
+    let card = deck.pop();
+    cardImg.src = "./cards/" + card + ".png";
+    dealerSum += getValue(card);
+    dealerAceCount += checkAce(card);
+    document.getElementById("dealer-cards").append(cardImg);
 
     for (let i = 0; i < 2; i++) {
         let cardImg = document.createElement("img");
@@ -64,10 +61,10 @@ function startGame() {
         document.getElementById("your-cards").append(cardImg);
     }
 
+    console.log(dealerSum);
     console.log(yourSum);
     document.getElementById("hit").addEventListener("click", hit);
     document.getElementById("stay").addEventListener("click", stay);
-
 }
 
 function hit() {
@@ -89,27 +86,28 @@ function hit() {
 }
 
 function stay() {
-    dealerSum = reduceAce(dealerSum, dealerAceCount);
-    yourSum = reduceAce(yourSum, yourAceCount);
-
     canHit = false;
     document.getElementById("hidden").src = "./cards/" + hidden + ".png";
+
+    // Le dealer tire des cartes jusqu'à ce que son total soit supérieur ou égal à 17
+    while (dealerSum < 17) {
+        let cardImg = document.createElement("img");
+        let card = deck.pop();
+        cardImg.src = "./cards/" + card + ".png";
+        dealerSum += getValue(card);
+        dealerAceCount += checkAce(card);
+        document.getElementById("dealer-cards").append(cardImg);
+        dealerSum = reduceAce(dealerSum, dealerAceCount); // Vérifie si l'As doit valoir 1 ou 11
+    }
 
     let message = "";
     if (yourSum > 21) {
         message = "You Lose!";
-    }
-    else if (dealerSum > 21) {
-        message = "You win!";
-    }
-    //both you and dealer <= 21
-    else if (yourSum == dealerSum) {
-        message = "Tie!";
-    }
-    else if (yourSum > dealerSum) {
+    } else if (dealerSum > 21 || yourSum > dealerSum) {
         message = "You Win!";
-    }
-    else if (yourSum < dealerSum) {
+    } else if (yourSum == dealerSum) {
+        message = "Tie!";
+    } else {
         message = "You Lose!";
     }
 
