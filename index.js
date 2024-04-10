@@ -29,14 +29,14 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log("Octopute");
+  console.log("Connected");
 });
 
 var server = app.listen(8081, function () {
   var host = server.address().adress;
   var port = server.address().port;
 
-  console.log("Ca marche, nique toi");
+  console.log("Ca marche");
 });
 
 app.use(express.static("public"));
