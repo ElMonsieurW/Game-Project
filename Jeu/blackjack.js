@@ -10,8 +10,6 @@ let deck;
 let canHit = true; //allows the player (you) to draw while yourSum <= 21
 
 window.onload = function() {
-    alert("Bienvenue au jeu de Blackjack!\n\nRègles du jeu :\n- Le but du jeu est d'obtenir un total de points supérieur à celui du croupier, sans dépasser 21.\n- Les cartes numérotées valent leur valeur faciale. Les cartes J, Q, et K valent chacune 10 points.\n- L'As vaut 1 ou 11 points, selon ce qui est plus avantageux pour le joueur.\n- Au début, le joueur et le croupier reçoivent deux cartes. Une des cartes du croupier est face cachée.\n- Le joueur peut demander des cartes supplémentaires ('Hit') jusqu'à ce qu'il soit satisfait de son total ou qu'il dépasse 21 ('Bust').\n- Le croupier tire des cartes supplémentaires jusqu'à ce que son total soit au moins de 17.\n- Si le joueur dépasse 21 points, il perd automatiquement ('Bust').\n- Si le croupier dépasse 21 points, le joueur gagne automatiquement.\n- Si le joueur et le croupier ont le même total, c'est un match nul ('Push').\n- Bonne chance!");
-
     buildDeck();
     shuffleDeck();
     startGame();
@@ -114,8 +112,9 @@ function stay() {
     document.getElementById("dealer-sum").innerText = dealerSum;
     document.getElementById("your-sum").innerText = yourSum;
     document.getElementById("results").innerText = message;
-}
+    
 
+}
 function getValue(card) {
     let data = card.split("-"); // "4-C" -> ["4", "C"]
     let value = data[0];
