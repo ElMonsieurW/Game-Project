@@ -68,6 +68,12 @@ con.connect(function (err) {
     [3, 10, 0, "trefle", 0, "", 0, "", "K_trefle"],
     [0, 0, 0, "Maxus", 1, "", 0, "", "Maxus_1"],
     [0, 0, 0, "Maxus", 2, "", 0, "", "Maxus_2"],
+    [0, 0, 0, "MaxusE", 1, "", 0, "", "MaxusE_1"],
+    [0, 0, 0, "MaxusE", 2, "", 0, "", "MaxusE_2"],
+    [0, 0, 0, "Minus", -1, "", 0, "", "Minus_1"],
+    [0, 0, 0, "Minus", -2, "", 0, "", "Minus_2"],
+    [0, 0, 0, "MinusE", -1, "", 0, "", "MinusE_1"],
+    [0, 0, 0, "MinusE", -2, "", 0, "", "MinusE_2"],
   ];
   con.query(sql, [values], function (err, result) {
     if (err) throw err;
