@@ -1,0 +1,47 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  color: azure;
+}
+
+#dealer-cards img {
+  height: 175px;
+  width: 125px;
+  margin: 1px;
+}
+
+#your-cards img {
+  height: 175px;
+  width: 125px;
+  margin: 1px;
+}
+
+#hit {
+  width: 100px;
+  height: 100px;
+  font-size: 20px;
+  border-radius: 75%;
+  color: azure;
+  background-color: darkgreen;
+  border-color: lightgreen;
+}
+
+#stay {
+  width: 100px;
+  height: 100px;
+  font-size: 20px;
+  border-radius: 75%;
+  color: azure;
+  background-color: darkred;
+  border-color: lightcoral;
+}
+
+#play {
+  width: 100px;
+  height: 100px;
+  font-size: 20px;
+  border-radius: 75%;
+  color: azure;
+  background-color: cornflowerblue;
+  border-color: blue;
+}
