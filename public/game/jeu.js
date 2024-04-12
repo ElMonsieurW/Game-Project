@@ -155,3 +155,18 @@ class BlackjackGame {
     rl.close();
   }
 }
+
+// dealerSum = 0;
+// yourSum = 0;
+// dealerAceCount = 0;
+// yourAceCount = 0;
+// dealer_sum = 0;
+// hidden;
+// document.getElementById("your-cards").innerHTML = "";
+// document.getElementById("dealer-cards").innerHTML = "";
+// let hiddenCardImg = document.createElement("img");
+// hiddenCardImg.src = "./assets/" + hidden + ".png";
+// document.getElementById("dealer-cards").appendChild(hiddenCardImg);
+// startGame((canHit = true), (canStay = true));
+// document.getElementById("dealer-sum").innerText = "0";
+// document.getElementById("your-sum").innerText = "0";

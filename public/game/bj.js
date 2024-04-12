@@ -128,26 +128,13 @@ function stay() {
   document.getElementById("your-sum").innerText = yourSum;
   document.getElementById("results").innerText = message;
 }
-function play() {
-  dealerSum = 0;
-  yourSum = 0;
-  dealerAceCount = 0;
-  yourAceCount = 0;
-  hidden;
-  document.getElementById("your-cards").innerHTML = "";
-  document.getElementById("dealer-cards").innerHTML = "";
-  let hiddenCardImg = document.createElement("img");
-  hiddenCardImg.src = "./assets/" + hidden + ".png";
-  document.getElementById("dealer-cards").appendChild(hiddenCardImg);
-  startGame((canHit = true), (canStay = true));
-}
+function play() {}
 function getValue(card) {
   console.log(card);
-  let data = card.split("_"); // "4-C" -> ["4", "C"]
+  let data = card.split("_");
   let value = data[0];
 
   if (isNaN(value)) {
-    //A J Q K
     if (value == "As") {
       return 11;
     }
