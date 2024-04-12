@@ -48,7 +48,7 @@ function shuffleDeck() {
   console.log(deck);
 }
 
-function dealerHit() {
+function dealerStart() {
   let cardImg = document.createElement("img");
   let card = deck.pop();
   cardImg.src = "./assets/" + card + ".png";
@@ -57,14 +57,23 @@ function dealerHit() {
   document.getElementById("dealer-cards").append(cardImg);
 }
 
+function dealerHit() {
+  while (dealerSum < 17) {
+    let cardImg = document.createElement("img");
+    let card = deck.pop();
+    cardImg.src = "./assets/" + card + ".png";
+    dealerSum += getValue(card);
+    dealerAceCount += checkAce(card);
+    document.getElementById("dealer-cards").append(cardImg);
+  }
+}
+
 function startGame() {
   hidden = deck.pop();
   dealerSum += getValue(hidden);
   dealerAceCount += checkAce(hidden);
   console.log(dealerSum);
-
-  dealerHit();
-
+  dealerStart();
   console.log(dealerSum);
 
   for (let i = 0; i < 2; i++) {
@@ -114,21 +123,38 @@ function stay() {
     message = "You Lose!";
   } else if (dealerSum > 21) {
     message = "You win!";
-  }
-  //both you and dealer <= 21
-  else if (yourSum == dealerSum) {
+  } else if (yourSum == dealerSum) {
     message = "Tie!";
   } else if (yourSum > dealerSum) {
     message = "You Win!";
   } else if (yourSum < dealerSum) {
     message = "You Lose!";
   }
-
+  dealerHit();
   document.getElementById("dealer-sum").innerText = dealerSum;
   document.getElementById("your-sum").innerText = yourSum;
   document.getElementById("results").innerText = message;
+  dealerHit();
+  setTimeout(function () {
+    window.location.reload();
+  }, 3000);
 }
-function play() {}
+function play() {
+  dealerSum = 0;
+  yourSum = 0;
+  dealerAceCount = 0;
+  yourAceCount = 0;
+  dealer_sum = 0;
+  hidden;
+  document.getElementById("your-cards").innerHTML = "";
+  document.getElementById("dealer-cards").innerHTML = "";
+  let hiddenCardImg = document.createElement("img");
+  hiddenCardImg.src = "./assets/" + hidden + ".png";
+  document.getElementById("dealer-cards").appendChild(hiddenCardImg);
+  startGame((canHit = true), (canStay = true));
+  document.getElementById("dealer-sum").innerText = "";
+  document.getElementById("your-sum").innerText = "";
+}
 function getValue(card) {
   console.log(card);
   let data = card.split("_");
