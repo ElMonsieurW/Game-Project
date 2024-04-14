@@ -7,7 +7,7 @@ let yourAceCount = 0;
 let hidden;
 let deck;
 
-let canHit = true; //allows the player (you) to draw while yourSum <= 21
+let canHit = true;
 
 const url = "http://localhost:3000/cards";
 
@@ -69,6 +69,7 @@ function dealerHit() {
 }
 
 function startGame() {
+  let chips = document.querySelectorAll(".chip");
   hidden = deck.pop();
   dealerSum += getValue(hidden);
   dealerAceCount += checkAce(hidden);
@@ -104,11 +105,8 @@ function hit() {
   document.getElementById("your-cards").append(cardImg);
 
   if (reduceAce(yourSum, yourAceCount) > 21) {
-    //A, J, 8 -> 1 + 10 + 8
     canHit = false;
   }
-
-  // dealerHit();
 }
 
 function stay() {
@@ -146,6 +144,7 @@ function play() {
   yourAceCount = 0;
   dealer_sum = 0;
   hidden;
+  hidden = deck.pop();
   document.getElementById("your-cards").innerHTML = "";
   document.getElementById("dealer-cards").innerHTML = "";
   let hiddenCardImg = document.createElement("img");
