@@ -10,25 +10,29 @@ npm (Node Package Manager)
 Web browser (Google Chrome, Mozilla Firefox, etc.)
 
 **Installation**
+
 Clone the repository to your local machine:
-bash
-Copy code
+
 >git clone <repository-url>
+
 Navigate to the project directory:
-bash
-Copy code
+
 >cd blackjack-game
+
 Install the required dependencies:
-bash
-Copy code
-`npm install`
+
+>npm install
+
 Starting the Game
+
 Start the local server:
-bash
-Copy code
-npm start
-Open your web browser and navigate to http://localhost:3000 to access the game.
-Gameplay
+
+>npm start
+>
+Open your web browser and navigate to **http://localhost:3000** to access the game.
+
+**Gameplay**
+
 Upon accessing the game, you'll see your initial balance displayed at the top.
 
 You can place bets by clicking on the different chips available.
@@ -43,7 +47,8 @@ If your hand's value exceeds 21, you lose the round. If your hand is closer to 2
 
 The game will automatically reset after a round is completed.
 
-Customization
+**Customization**
+
 Feel free to customize the game by modifying the HTML, CSS, or JavaScript files as needed. You can adjust the game rules, visuals, or add new features according to your preferences.
 
-Enjoy playing Blackjack!
+_Enjoy playing Blackjack!_
