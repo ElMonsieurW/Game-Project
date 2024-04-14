@@ -2,25 +2,26 @@
 
 Welcome to the Blackjack game! This README will guide you through setting up and playing the game from scratch.
 
-Prerequisites
-Before you begin, ensure you have the following installed on your system:
+**Prerequisites**
 
+Before you begin, ensure you have the following installed on your system:
 Node.js
 npm (Node Package Manager)
 Web browser (Google Chrome, Mozilla Firefox, etc.)
-Installation
+
+**Installation**
 Clone the repository to your local machine:
 bash
 Copy code
-git clone <repository-url>
+>git clone <repository-url>
 Navigate to the project directory:
 bash
 Copy code
-cd blackjack-game
+>cd blackjack-game
 Install the required dependencies:
 bash
 Copy code
-npm install
+`npm install`
 Starting the Game
 Start the local server:
 bash
