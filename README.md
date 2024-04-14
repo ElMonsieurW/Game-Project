@@ -1,32 +1,48 @@
-# BlackJack Game-Project
-Our BlackJack is a web game application that was created as a school project within two week. 
+# Blackjack Game
 
+Welcome to the Blackjack game! This README will guide you through setting up and playing the game from scratch.
 
-Technology Stack:
-We developed our project in native js, and use wampserver for the database
+Prerequisites
+Before you begin, ensure you have the following installed on your system:
 
-Features:
-
-You can bet an amount
-Then start a game
-Draw a card
-Stay with your current card
-replay
-
-To run the database, you need the following:
-install wampserver 
-https://www.wampserver.com/
-
-Run the following command to install the dependencies:
-
+Node.js
+npm (Node Package Manager)
+Web browser (Google Chrome, Mozilla Firefox, etc.)
+Installation
+Clone the repository to your local machine:
+bash
+Copy code
+git clone <repository-url>
+Navigate to the project directory:
+bash
+Copy code
+cd blackjack-game
+Install the required dependencies:
+bash
+Copy code
 npm install
+Starting the Game
+Start the local server:
+bash
+Copy code
+npm start
+Open your web browser and navigate to http://localhost:3000 to access the game.
+Gameplay
+Upon accessing the game, you'll see your initial balance displayed at the top.
 
-Download the node modules :
+You can place bets by clicking on the different chips available.
 
-npm i node
+Click the "Play" button to start the game.
 
-Start the frontend by running:
+Use the "Hit" button to draw additional cards and try to get as close to 21 without going over.
 
-node index.js
+Click the "Stay" button to end your turn and let the dealer play their hand.
 
-Now you should be able to access the application in your browser at http://localhost:3000. Note that it might be running on a different port.
+If your hand's value exceeds 21, you lose the round. If your hand is closer to 21 than the dealer's hand without exceeding it, you win the round.
+
+The game will automatically reset after a round is completed.
+
+Customization
+Feel free to customize the game by modifying the HTML, CSS, or JavaScript files as needed. You can adjust the game rules, visuals, or add new features according to your preferences.
+
+Enjoy playing Blackjack!
